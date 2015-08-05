@@ -1,0 +1,2 @@
+#!/bin/sh
+sudo -u dropbox /dbox/dropbox.py "$@"
