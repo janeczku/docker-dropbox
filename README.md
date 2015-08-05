@@ -8,25 +8,25 @@ This repository provides the [janeczku/dropbox](https://registry.hub.docker.com/
 
 ### Quickstart
 
-    docker run -d --name=dropbox janeczku/dropbox
+    docker run -d --restart=always --name=dropbox janeczku/dropbox
 
 ### Dropbox data mounted to local folder on the host
 
-    docker run -d --name=dropbox \
+    docker run -d --restart=always --name=dropbox \
     -v /path/to/localfolder:/dbox/Dropbox \
     janeczku/dropbox
 
 ### Custom owner for the Dropbox files
 This fixes file permission errrors that might occur when mounting the Dropbox volume to the host or another container. Just set UID/GID to the user/group that is going to access the Dropbox files.
 
-    docker run -d --name=dropbox \
+    docker run -d --restart=always --name=dropbox \
     -e DBOX_UID=110 \
     -e DBOX_GID=200 \
     janeczku/dropbox
 
 ### Enable LAN Sync
 
-    docker run -d --name=dropbox \
+    docker run -d --restart=always --name=dropbox \
     --net="host" \
     janeczku/dropbox
 
