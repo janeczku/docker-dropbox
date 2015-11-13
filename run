@@ -36,12 +36,6 @@ chmod 755 /dbox/Dropbox
 [ ! -e "/dbox/.dropbox/unlink.db" ]      || rm /dbox/.dropbox/unlink.db
 [ ! -e "/dbox/.dropbox/dropbox.pid" ]    || rm /dbox/.dropbox/dropbox.pid
 
-# Dropbox is not already extracted?
-if [ ! -f "/dbox/.dropbox-dist/dropboxd" ]; then
-	tar -xzf /dbox/base/dropbox.tar.gz -C /dbox/
-	chown -R $DBOX_UID:$DBOX_GID /dbox/.dropbox-dist
-fi
-
 echo "dropboxd($(cat /dbox/.dropbox-dist/VERSION)) started..."
 umask 002
 exec su dropbox -s /bin/bash -c /dbox/.dropbox-dist/dropboxd
