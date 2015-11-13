@@ -22,7 +22,7 @@ if [ -z "$FIND_GROUP" ]; then
 fi
 
 # Set dropbox account's UID.
-usermod -u $DBOX_UID -g $DBOX_GID dropbox > /dev/null 2>&1
+usermod -u $DBOX_UID -g $DBOX_GID --non-unique dropbox > /dev/null 2>&1
 
 # Change ownership to dropbox account on all working folders.
 chown -R $DBOX_UID:$DBOX_GID /dbox
