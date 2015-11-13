@@ -2,9 +2,9 @@ FROM debian:jessie
 MAINTAINER Jan Broer <janeczku@yahoo.de>
 ENV DEBIAN_FRONTEND noninteractive
 
-# Download & install required applications: curl, sudo.
+# Download & install required applications: curl.
 RUN apt-get -qqy update
-RUN apt-get -qqy install wget python sudo
+RUN apt-get -qqy install wget python
 
 # Create service account and set permissions.
 RUN groupadd dropbox

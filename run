@@ -44,4 +44,4 @@ fi
 
 echo "dropboxd($(cat /dbox/.dropbox-dist/VERSION)) started..."
 umask 002
-exec sudo -u dropbox /dbox/.dropbox-dist/dropboxd
+exec su dropbox -s /bin/bash -c /dbox/.dropbox-dist/dropboxd
