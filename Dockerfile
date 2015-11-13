@@ -17,7 +17,7 @@ RUN useradd -m -d /dbox -c "Dropbox Daemon Account" -s /usr/sbin/nologin -g drop
 
 # Dropbox Lan-sync
 EXPOSE 17500
-VOLUME ["/dbox/Dropbox"]
+VOLUME ["/dbox/.dropbox", "/dbox/Dropbox"]
 
 # Dropbox is weird: it insists on downloading its biniaries itself via 'dropbox
 # start -i'. So we switch to 'dropbox' user temporarily and let it do its thing.
