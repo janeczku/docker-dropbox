@@ -31,4 +31,4 @@ USER root
 COPY run /root
 RUN chmod +x /root/run 
 
-CMD ["/dbox/run"]
+CMD ["/root/run"]
