@@ -2,33 +2,33 @@ FROM debian:jessie
 MAINTAINER Jan Broer <janeczku@yahoo.de>
 ENV DEBIAN_FRONTEND noninteractive
 
-# Download & install required applications: curl, sudo.
+# Following 'How do I add or remove Dropbox from my Linux repository?' - https://www.dropbox.com/en/help/246
+RUN echo 'deb http://linux.dropbox.com/debian jessie main' > /etc/apt/sources.list.d/dropbox.list
+RUN apt-key adv --keyserver pgp.mit.edu --recv-keys 1C61A2656FB57B7E4DE0F4C1FC918B335044912E
 RUN apt-get -qqy update
-RUN apt-get -qqy install wget python sudo
-
-# Create service account and set permissions.
-RUN groupadd dropbox
-RUN useradd -d /dbox -c "Dropbox Daemon Account" -s /usr/sbin/nologin -g dropbox dropbox
-RUN mkdir -p /dbox/.dropbox /dbox/.dropbox-dist /dbox/Dropbox /dbox/base
-
-# Download & install Dropbox 3.2.9 and latest python client
-RUN wget -nv -O /dbox/base/dropbox.tar.gz "https://github.com/radio-astro/docker-dropbox/blob/master/dropbox-lnx.x86_64-3.2.9.tar.gz?raw=true"
-RUN wget -nv -O /dbox/dropbox.py "https://www.dropbox.com/download?dl=packages/dropbox.py"
-
+# Note 'ca-certificates' dependency is required for 'dropbox start -i' to succeed
+RUN apt-get -qqy install ca-certificates dropbox
 # Perform image clean up.
 RUN apt-get -qqy autoclean
 
-# Set permissions
-RUN chown -R dropbox:dropbox /dbox
-
-# Install script for managing dropbox init.
-COPY run /dbox/
-COPY dropbox /usr/local/bin/
-RUN chmod +x /dbox/run /usr/local/bin/dropbox /dbox/dropbox.py
-
-VOLUME ["/dbox/.dropbox", "/dbox/.dropbox-dist", "/dbox/Dropbox"]
+# Create service account and set permissions.
+RUN groupadd dropbox
+RUN useradd -m -d /dbox -c "Dropbox Daemon Account" -s /usr/sbin/nologin -g dropbox dropbox
 
 # Dropbox Lan-sync
 EXPOSE 17500
+VOLUME ["/dbox/.dropbox", "/dbox/Dropbox"]
 
-CMD ["/dbox/run"]
+# Dropbox is weird: it insists on downloading its biniaries itself via 'dropbox
+# start -i'. So we switch to 'dropbox' user temporarily and let it do its thing.
+USER dropbox
+RUN mkdir -p /dbox/.dropbox /dbox/.dropbox-dist /dbox/Dropbox /dbox/base
+RUN echo y | dropbox start -i
+
+# Switch back to root, since the run script needs root privs to chmod to the user's preferrred UID
+USER root
+### Install script for managing dropbox init.
+COPY run /root
+RUN chmod +x /root/run 
+
+CMD ["/root/run"]

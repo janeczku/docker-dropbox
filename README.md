@@ -60,8 +60,5 @@ Set the owner of the Dropbox folder to a custom GID
 
 ## Exposed volumes
 
-`/dbox/.dropbox` 
-Dropbox config folder
-
 `/dbox/Dropbox`
 Dropbox files
