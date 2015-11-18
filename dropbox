@@ -1,2 +1,2 @@
 #!/bin/sh
-sudo -u dropbox /dbox/dropbox.py "$@"
+su dropbox -s /bin/bash -c "/usr/bin/dropbox-cli $@"
