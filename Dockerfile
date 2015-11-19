@@ -15,10 +15,6 @@ RUN apt-get -qqy autoclean
 RUN groupadd dropbox
 RUN useradd -m -d /dbox -c "Dropbox Daemon Account" -s /usr/sbin/nologin -g dropbox dropbox
 
-# Dropbox Lan-sync
-EXPOSE 17500
-VOLUME ["/dbox/.dropbox", "/dbox/Dropbox"]
-
 # Dropbox is weird: it insists on downloading its biniaries itself via 'dropbox
 # start -i'. So we switch to 'dropbox' user temporarily and let it do its thing.
 USER dropbox
@@ -30,5 +26,11 @@ USER root
 ### Install script for managing dropbox init.
 COPY run /root
 RUN chmod +x /root/run 
+
+# Dropbox Lan-sync
+EXPOSE 17500
+
+# Expose the .dropbox/ runtime status and Dropbox/ content files. This comes After 'dropbox start -i' in case the builder was 'docker-compose build', which mounts these and so can cause permission errors.
+VOLUME ["/dbox/.dropbox", "/dbox/Dropbox"]
 
 CMD ["/root/run"]
