@@ -23,9 +23,6 @@ RUN echo y | dropbox start -i
 
 # Switch back to root, since the run script needs root privs to chmod to the user's preferrred UID
 USER root
-### Install script for managing dropbox init.
-COPY run /root
-RUN chmod +x /root/run 
 
 # Dropbox Lan-sync
 EXPOSE 17500
@@ -33,4 +30,9 @@ EXPOSE 17500
 # Expose the .dropbox/ runtime status and Dropbox/ content files. This comes After 'dropbox start -i' in case the builder was 'docker-compose build', which mounts these and so can cause permission errors.
 VOLUME ["/dbox/.dropbox", "/dbox/Dropbox"]
 
-CMD ["/root/run"]
+### Install init script and dropbox command line wrapper
+COPY run /root/
+RUN mv /usr/bin/dropbox /usr/bin/dropbox-cli
+COPY dropbox /usr/bin/dropbox
+
+ENTRYPOINT ["/root/run"]
