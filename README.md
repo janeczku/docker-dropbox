@@ -16,8 +16,8 @@ This repository provides the [janeczku/dropbox](https://registry.hub.docker.com/
     -v /path/to/localfolder:/dbox/Dropbox \
     janeczku/dropbox
 
-### Custom owner for the Dropbox files
-This fixes file permission errrors that might occur when mounting the Dropbox volume to the host or another container. Just set UID/GID to the user/group that is going to access the Dropbox files.
+### Run dropbox with custom user/group id
+This fixes file permission errrors that might occur when mounting the Dropbox file folder (`/dbox/Dropbox`) from the host or a Docker container volume. You need to set `DBOX_UID`/`DBOX_GID` to the user id and group id of whoever owns these files on the host or in the other container.
 
     docker run -d --restart=always --name=dropbox \
     -e DBOX_UID=110 \
@@ -52,13 +52,16 @@ You should see something like this:
 
 **DBOX_UID**  
 Default: `1000`  
-Set the owner of the Dropbox folder to a custom UID
+Run Dropbox with a custom user id (matching the owner of the mounted files)
 
 **DBOX_GID**  
 Default: `1000`  
-Set the owner of the Dropbox folder to a custom GID
+Run Dropbox with a custom group id (matching the group of the mounted files)
 
 ## Exposed volumes
 
 `/dbox/Dropbox`
 Dropbox files
+
+`/dbox/.dropbox`
+Dropbox account configuration
