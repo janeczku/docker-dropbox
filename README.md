@@ -58,6 +58,11 @@ Run Dropbox with a custom user id (matching the owner of the mounted files)
 Default: `1000`  
 Run Dropbox with a custom group id (matching the group of the mounted files)
 
+**$DBOX_SKIP_UPDATE**  
+Default: `False`  
+Set this to `True` to skip updating to the latest Dropbox version on container start
+
+
 ## Exposed volumes
 
 `/dbox/Dropbox`
