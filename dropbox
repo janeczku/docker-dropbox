@@ -1,2 +1,6 @@
-#!/bin/sh
-su dropbox -s /bin/bash -c "/usr/bin/dropbox-cli $@"
+#!/bin/bash
+if [ $# -gt 0 ]; then
+    su dropbox -s /bin/bash -c "dropbox-cli $(printf "%q " "$@")"
+else
+    su dropbox -s /bin/bash -c dropbox-cli
+fi
