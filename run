@@ -41,7 +41,7 @@ if [[ -z "$DBOX_SKIP_UPDATE" ]]; then
 	echo "Checking for latest Dropbox version..."
 	sleep 1
 	# Get download link for latest dropbox version
-	DL=$(curl -I -s https://www.dropbox.com/download/\?plat\=lnx.x86_64 | grep location | awk -F'location: ' '{print $2}')
+	DL=$(curl -I -s https://www.dropbox.com/download/\?plat\=lnx.x86_64 | grep ocation | awk -F'ocation: ' '{print $2}')
 	# Strip CRLF
 	DL=${DL//[$'\t\r\n ']}
 	# Extract version string
