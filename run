@@ -53,12 +53,16 @@ if [[ -z "$DBOX_SKIP_UPDATE" ]]; then
 	if [ ! -z "${Latest}" ] && [ ! -z "${Current}" ] && [ $Current != $Latest ]; then
 	        echo "Downloading Dropbox v$Latest..."
 	        tmpdir=`mktemp -d`
-	        curl -# -L $DL | tar xzf - -C $tmpdir
-	        echo "Installing new version..."
-	        rm -rf /opt/dropbox/*
-	        mv $tmpdir/.dropbox-dist/* /opt/dropbox/
-	        rm -rf $tmpdir
-	        echo "Dropbox updated to v$Latest"
+                (curl -# -L $DL | tar xzf - -C $tmpdir) || rm -rf $tmpdir
+                if [ -d $tmpdir ]; then
+                    echo "Installing new version..."
+                    rm -rf /opt/dropbox/*
+                    mv $tmpdir/.dropbox-dist/* /opt/dropbox/
+                    rm -rf $tmpdir
+                    echo "Dropbox updated to v$Latest"
+                else
+                    echo "Download failed"
+                fi
 	else
 		echo "Dropbox is up-to-date"
 	fi
