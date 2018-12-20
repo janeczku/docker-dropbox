@@ -1,4 +1,4 @@
-FROM debian:stretch-slim
+FROM debian:stable
 #FROM ubuntu:xenial
 MAINTAINER Jan Broer <janeczku@yahoo.de>, Michael C <admin@dragonfall.net>
 ENV DEBIAN_FRONTEND noninteractive
