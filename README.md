@@ -13,7 +13,7 @@ This repository is based on the [janeczku/dropbox](https://registry.hub.docker.c
 
 ### Quickstart
 
-    docker run -d --restart=always --name=dropbox janeczku/dropbox
+    docker run -d --restart=always --name=dropbox smokex365/docker-dropbox-ext4
 
 ### Dropbox data mounted to local folder on the host
 
