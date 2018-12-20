@@ -8,7 +8,7 @@ RUN echo 'deb http://linux.dropbox.com/debian stretch main' > /etc/apt/sources.l
 	&& apt-get -qqy update \
 	# Note 'ca-certificates' dependency is required for 'dropbox start -i' to succeed
 	#deal with gnupg error
-	&& apt-get update && apt-get install -my wget gnupg \
+	&& apt-get install -my wget gnupg &7 apt-get install update \
 	&& apt-get -qqy install ca-certificates curl python-gpgme dropbox \
 	# Perform image clean up.
 	&& apt-get -qqy autoclean \
