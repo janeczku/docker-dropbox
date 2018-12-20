@@ -1,5 +1,5 @@
 FROM debian:stretch
-MAINTAINER Jan Broer <janeczku@yahoo.de>
+MAINTAINER Jan Broer <janeczku@yahoo.de>, Michael C <admin@dragonfall.net>
 ENV DEBIAN_FRONTEND noninteractive
 
 # Following 'How do I add or remove Dropbox from my Linux repository?' - https://www.dropbox.com/en/help/246
