@@ -9,10 +9,10 @@ RUN echo 'deb http://linux.dropbox.com/debian stretch main' > /etc/apt/sources.l
 	&& apt-key adv --keyserver pgp.mit.edu --recv-keys 1C61A2656FB57B7E4DE0F4C1FC918B335044912E \
 	&& apt-get -qqy update \
 	#deal with gnupg error
-	&& apt-get -my install gnupg2 \
+	&& apt-get -my install curl software-properties-common gnupg2 \
 	&& apt-get -qqy update \
 	# Note 'ca-certificates' dependency is required for 'dropbox start -i' to succeed
-	&& apt-get -qqy install ca-certificates curl python-gpgme dropbox \
+	&& apt-get -qqy install ca-certificates python-gpgme dropbox \
 	# Perform image clean up.
 	&& apt-get -qqy autoclean \
 	&& rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* \
