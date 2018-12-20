@@ -9,7 +9,7 @@ RUN echo 'deb http://linux.dropbox.com/ubuntu xenial main' > /etc/apt/sources.li
 	&& apt-get -qqy update \
 	#deal with gnupg error
 	&& apt-get -my install wget gnupg2 \
-	&& apt-get install update \
+	&& apt-get -qqy update \
 	# Note 'ca-certificates' dependency is required for 'dropbox start -i' to succeed
 	&& apt-get -qqy install ca-certificates curl python-gpgme dropbox \
 	# Perform image clean up.
