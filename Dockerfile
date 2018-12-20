@@ -1,10 +1,11 @@
-#FROM debian:stretch
-FROM ubuntu:xenial
+FROM debian:stretch
+#FROM ubuntu:xenial
 MAINTAINER Jan Broer <janeczku@yahoo.de>, Michael C <admin@dragonfall.net>
-#ENV DEBIAN_FRONTEND noninteractive
+ENV DEBIAN_FRONTEND noninteractive
 
 # Following 'How do I add or remove Dropbox from my Linux repository?' - https://www.dropbox.com/en/help/246
-RUN echo 'deb http://linux.dropbox.com/ubuntu xenial main' > /etc/apt/sources.list.d/dropbox.list \
+RUN echo 'deb http://linux.dropbox.com/debian stretch main' > /etc/apt/sources.list.d/dropbox.list \
+#RUN echo 'deb http://linux.dropbox.com/ubuntu xenial main' > /etc/apt/sources.list.d/dropbox.list \
 	&& apt-key adv --keyserver pgp.mit.edu --recv-keys 1C61A2656FB57B7E4DE0F4C1FC918B335044912E \
 	&& apt-get -qqy update \
 	#deal with gnupg error
