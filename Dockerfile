@@ -1,4 +1,4 @@
-FROM debian:stable
+FROM debian:stretch
 #FROM ubuntu:xenial
 MAINTAINER Jan Broer <janeczku@yahoo.de>, Michael C <admin@dragonfall.net>
 ENV DEBIAN_FRONTEND noninteractive
@@ -9,7 +9,7 @@ RUN echo 'deb http://linux.dropbox.com/debian stretch main' > /etc/apt/sources.l
 	&& apt-key adv --keyserver pgp.mit.edu --recv-keys 1C61A2656FB57B7E4DE0F4C1FC918B335044912E \
 	&& apt-get -qqy update \
 	#deal with gnupg error
-	&& apt-get -my install wget gnupg gnupg1 gnupg2 \
+	&& apt-get -my install gnupg-agent \
 	&& apt-get -qqy update \
 	# Note 'ca-certificates' dependency is required for 'dropbox start -i' to succeed
 	&& apt-get -qqy install ca-certificates curl python-gpgme dropbox \
