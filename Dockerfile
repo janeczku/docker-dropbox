@@ -4,11 +4,10 @@ ENV DEBIAN_FRONTEND noninteractive
 
 # Following 'How do I add or remove Dropbox from my Linux repository?' - https://www.dropbox.com/en/help/246
 RUN echo 'deb http://linux.dropbox.com/debian stretch main' > /etc/apt/sources.list.d/dropbox.list \
-	&& sh -c "echo 'deb http://packages.dotdeb.org stretch all' >> /etc/apt/sources.list" \
 	&& apt-key adv --keyserver pgp.mit.edu --recv-keys 1C61A2656FB57B7E4DE0F4C1FC918B335044912E \
 	&& apt-get -qqy update \
 	#deal with gnupg error
-	&& apt-get -qqy install wget gnupg2 \
+	&& apt-get -my install wget gnupg2 \
 	&& apt-get install update \
 	# Note 'ca-certificates' dependency is required for 'dropbox start -i' to succeed
 	&& apt-get -qqy install ca-certificates curl python-gpgme dropbox \
