@@ -1,13 +1,14 @@
-FROM debian:jessie
-MAINTAINER Jan Broer <janeczku@yahoo.de>
-ENV DEBIAN_FRONTEND noninteractive
+FROM ubuntu:xenial
+MAINTAINER Jan Broer <janeczku@yahoo.de>, Michael C <admin@dragonfall.net>
+ARG DEBIAN_FRONTEND=noninteractive
 
 # Following 'How do I add or remove Dropbox from my Linux repository?' - https://www.dropbox.com/en/help/246
-RUN echo 'deb http://linux.dropbox.com/debian jessie main' > /etc/apt/sources.list.d/dropbox.list \
+RUN echo 'deb http://linux.dropbox.com/ubuntu xenial main' > /etc/apt/sources.list.d/dropbox.list \
+	#&& echo 'deb http://deb.debian.org/debian stretch main' > /etc/apt.sources.list \
 	&& apt-key adv --keyserver pgp.mit.edu --recv-keys 1C61A2656FB57B7E4DE0F4C1FC918B335044912E \
 	&& apt-get -qqy update \
 	# Note 'ca-certificates' dependency is required for 'dropbox start -i' to succeed
-	&& apt-get -qqy install ca-certificates curl python-gpgme dropbox \
+	&& apt-get -qqy install ca-certificates python-gpgme curl dropbox \
 	# Perform image clean up.
 	&& apt-get -qqy autoclean \
 	&& rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* \
