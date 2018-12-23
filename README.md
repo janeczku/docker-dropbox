@@ -1,7 +1,6 @@
 # Dropbox in Docker
 
-[![Docker Pulls](https://img.shields.io/docker/pulls/smokex365/docker-dropbox-ext4.svg?maxAge=2592000)][hub]
-[![License](https://img.shields.io/github/license/janeczku/docker-alpine-kubernetes.svg?maxAge=2592000)]()
+![Docker Pulls](https://img.shields.io/docker/pulls/smokex365/docker-dropbox-ext4.svg?maxAge=2592000)
 
 [hub]: https://hub.docker.com/r/smokex365/docker-dropbox-ext4/
 
