@@ -12,6 +12,14 @@ if [ -z "$DBOX_GID" ]; then
 	echo "DBOX_GID variable not specified, defaulting to dropbox user group id ($DBOX_GID)"
 fi
 
+# Set Max Workers for fsnotify
+if [ -z "$MAX_USER_WATCHES" ]; then
+	echo "max_user_watchers left at default"
+else
+	echo fs.inotify.max_user_watches=${MAX_USER_WATCHES} | tee -a /etc/sysctl.conf; sysctl -p
+	echo "Setting fs.inotify.max_user_watches to ${MAX_USER_WATCHES}"
+fi
+
 # Look for existing group, if not found create dropbox with specified GID.
 FIND_GROUP=$(grep ":$DBOX_GID:" /etc/group)
 
