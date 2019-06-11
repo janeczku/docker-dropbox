@@ -4,16 +4,24 @@ ENV DEBIAN_FRONTEND noninteractive
 
 # Following 'How do I add or remove Dropbox from my Linux repository?' - https://www.dropbox.com/en/help/246
 RUN echo 'deb http://linux.dropbox.com/debian jessie main' > /etc/apt/sources.list.d/dropbox.list \
-	&& apt-key adv --keyserver pgp.mit.edu --recv-keys 1C61A2656FB57B7E4DE0F4C1FC918B335044912E \
+	&& apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 1C61A2656FB57B7E4DE0F4C1FC918B335044912E \
 	&& apt-get -qqy update \
 	# Note 'ca-certificates' dependency is required for 'dropbox start -i' to succeed
-	&& apt-get -qqy install ca-certificates curl python-gpgme dropbox \
+	&& apt-get -qqy install ca-certificates curl python-gpgme dropbox git build-essential locales\
 	# Perform image clean up.
 	&& apt-get -qqy autoclean \
 	&& rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* \
 	# Create service account and set permissions.
 	&& groupadd dropbox \
-	&& useradd -m -d /dbox -c "Dropbox Daemon Account" -s /usr/sbin/nologin -g dropbox dropbox
+	&& useradd -m -d /dbox -c "Dropbox Daemon Account" -s /usr/sbin/nologin -g dropbox dropbox \
+        && cd /tmp \
+        && git clone https://github.com/dark/dropbox-filesystem-fix.git \
+        && cd dropbox-filesystem-fix \
+        && make \
+        && cd /tmp \
+        && mv dropbox-filesystem-fix /opt/ \
+        && chmod +x /opt/dropbox-filesystem-fix/dropbox_start.py \
+        && rm -rf /tmp/dropbox-filesystem-fix
 
 # Dropbox is weird: it insists on downloading its binaries itself via 'dropbox
 # start -i'. So we switch to 'dropbox' user temporarily and let it do its thing.
@@ -40,6 +48,13 @@ RUN mkdir -p /opt/dropbox \
 	&& chmod g-w /tmp \
 	# Prepare for command line wrapper
 	&& mv /usr/bin/dropbox /usr/bin/dropbox-cli
+
+# Set locale for dropbox status output
+RUN sed -i -e 's/# en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/' /etc/locale.gen && \
+    dpkg-reconfigure --frontend=noninteractive locales && \
+    update-locale LANG=en_US.UTF-8
+
+ENV LANG en_US.UTF-8 
 
 # Install init script and dropbox command line wrapper
 COPY run /root/

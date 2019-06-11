@@ -66,4 +66,18 @@ fi
 
 echo "Starting dropboxd ($(cat /opt/dropbox/VERSION))..."
 umask 002
-exec su dropbox -s /bin/bash -c /opt/dropbox/dropboxd
+#exec su dropbox -s /bin/bash -c /opt/dropbox/dropboxd
+echo "Patching dropbox_start.py for updated dropboxd path"
+sed -i "s:~/.dropbox-dist/dropboxd:/opt/dropbox/dropboxd:g" /opt/dropbox-filesystem-fix/dropbox_start.py
+
+su dropbox -s /bin/bash -c /opt/dropbox-filesystem-fix/dropbox_start.py
+
+#Loop until dropbox dies
+#while [ $(ps -ef | grep dropbox | grep -v grep | wc -l) -ge 1 ]
+#Replaced with infinite loop in case dropbox restarts itself
+#To Do: Replace with something more elegant
+while [ 1 -gt 0 ]
+do
+  dropbox status
+  sleep 1
+done
