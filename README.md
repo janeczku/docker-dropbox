@@ -14,6 +14,7 @@ This repository provides the [janeczku/dropbox](https://registry.hub.docker.com/
 ### Optional first step
 (shouldn't be neccesary unless you need to make changes to the `Dockerfile` or the `run` script).
 
+    # from the docker-dropbox directory
     docker build . --tag janeczku/dropbox
 
 ### Quickstart
