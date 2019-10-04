@@ -64,6 +64,7 @@ if [[ -z "$DBOX_SKIP_UPDATE" ]]; then
 	fi
 fi
 
+chmod -R a+rx /opt/dropbox/
 echo "Starting dropboxd ($(cat /opt/dropbox/VERSION))..."
 umask 002
 exec su dropbox -s /bin/bash -c /opt/dropbox/dropboxd
