@@ -1,11 +1,16 @@
 FROM debian:jessie
 MAINTAINER Jan Broer <janeczku@yahoo.de>
 ENV DEBIAN_FRONTEND noninteractive
+ENV LANG en_US.UTF-8
+ENV LANGUAGE en_US:en
+ENV LC_ALL en_US.UTF-8
 
 # Following 'How do I add or remove Dropbox from my Linux repository?' - https://www.dropbox.com/en/help/246
 RUN echo 'deb http://linux.dropbox.com/debian jessie main' > /etc/apt/sources.list.d/dropbox.list \
-	&& apt-key adv --keyserver pgp.mit.edu --recv-keys 1C61A2656FB57B7E4DE0F4C1FC918B335044912E \
+	&& apt-key adv --keyserver pool.sks-keyservers.net --recv-keys 1C61A2656FB57B7E4DE0F4C1FC918B335044912E \
 	&& apt-get -qqy update \
+	&& apt-get -qqy install locales locales-all \
+	&& apt-get -qqy install libglapi-mesa libxcb-glx0 libxcb-dri2-0 libxcb-dri3-0 libxcb-present0 libxcb-sync1 libxshmfence1 libxxf86vm1 \
 	# Note 'ca-certificates' dependency is required for 'dropbox start -i' to succeed
 	&& apt-get -qqy install ca-certificates curl python-gpgme dropbox \
 	# Perform image clean up.
@@ -13,7 +18,8 @@ RUN echo 'deb http://linux.dropbox.com/debian jessie main' > /etc/apt/sources.li
 	&& rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* \
 	# Create service account and set permissions.
 	&& groupadd dropbox \
-	&& useradd -m -d /dbox -c "Dropbox Daemon Account" -s /usr/sbin/nologin -g dropbox dropbox
+	&& useradd -m -d /dbox -c "Dropbox Daemon Account" -s /usr/sbin/nologin -g dropbox dropbox \
+	&& sed --in-place '/en_US.UTF-8/s/^# //' /etc/locale.gen
 
 # Dropbox is weird: it insists on downloading its binaries itself via 'dropbox
 # start -i'. So we switch to 'dropbox' user temporarily and let it do its thing.
