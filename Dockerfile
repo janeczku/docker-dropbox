@@ -24,14 +24,6 @@ RUN mkdir -p /dbox/.dropbox /dbox/.dropbox-dist /dbox/Dropbox /dbox/base \
 # Switch back to root, since the run script needs root privs to chmod to the user's preferrred UID
 USER root
 
-# Install dropbox files-system support patch
-ADD ./dropbox_ext4/* /tmp/dropbox_ext4/
-WORKDIR /tmp/dropbox_ext4
-RUN ./fix_dropbox.py \
-    && cd .. \
-    && rm -rf /tmp/dropbox_ext4
-WORKDIR /
-
 # Dropbox has the nasty tendency to update itself without asking. In the processs it fills the
 # file system over time with rather large files written to /dbox and /tmp. The auto-update routine
 # also tries to restart the dockerd process (PID 1) which causes the container to be terminated.
@@ -52,12 +44,6 @@ RUN mkdir -p /opt/dropbox \
 # Install init script and dropbox command line wrapper
 COPY run /root/
 COPY dropbox /usr/bin/dropbox
-
-# Assert that dropbox points at the wrapper script set-up by the dropbox_ext4 patch, which set's the
-# LD_PRELOAD path properly. The run script executes `dropbox` not `/usr/bin/dropbox`, so this means that the
-# actual execution order will be:
-#     /root/run -> /usr/local/bin/dropbox -> /usr/bin/dropbox -> /usr/bin/dropbox-cli
-RUN [ "$(which dropbox)" = "/usr/local/bin/dropbox" ]
 
 WORKDIR /dbox/Dropbox
 EXPOSE 17500
