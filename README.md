@@ -25,8 +25,8 @@ This repository provides the [janeczku/dropbox](https://registry.hub.docker.com/
 This fixes file permission errrors that might occur when mounting the Dropbox file folder (`/dbox/Dropbox`) from the host or a Docker container volume. You need to set `DBOX_UID`/`DBOX_GID` to the user id and group id of whoever owns these files on the host or in the other container.
 
     docker run -d --restart=always --name=dropbox \
-    -e DBOX_UID=110 \
-    -e DBOX_GID=200 \
+    -e DBOX_UID=$(id -u) \
+    -e DBOX_GID=$(id -g) \
     janeczku/dropbox
 
 ### Enable LAN Sync
