@@ -2,7 +2,7 @@
 
 This repository, much like Docker (both the company and the product) is deprecated.
 
-You will find a much better alternative to this image at: https://github.com/ecnepsnai/podman-docker
+You will find a much better alternative to this image at: https://github.com/ecnepsnai/podman-dropbox
 
 Original readme below...
 
